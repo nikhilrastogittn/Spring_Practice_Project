@@ -66,16 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @PostConstruct
-    void test(){
-        getAllByPassword("123456");
-    }
 
     @Override
     public List<User> getAllByPassword(String password){
 
         List<User> users= userRepository.findByPassword(password);
-        System.out.println(users);
         return users;
     }
 
