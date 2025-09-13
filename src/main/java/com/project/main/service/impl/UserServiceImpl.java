@@ -46,6 +46,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Invalid User"));
         journalEntryService.deleteAll(user.getJournalEntryList());
         userRepository.deleteById(id);
+
+
     }
 
     @Override
