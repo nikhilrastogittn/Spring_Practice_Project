@@ -1,15 +1,16 @@
 package com.project.main.service.impl;
 
-import com.project.main.entity.JournalEntry;
 import com.project.main.entity.User;
 import com.project.main.repository.UserRepository;
 import com.project.main.service.JournalEntryService;
 import com.project.main.service.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -63,4 +64,20 @@ public class UserServiceImpl implements UserService {
 
         } else throw new RuntimeException("Invalid User or User not found");
     }
+
+
+    @PostConstruct
+    void test(){
+        getAllByPassword("123456");
+    }
+
+    @Override
+    public List<User> getAllByPassword(String password){
+
+        List<User> users= userRepository.findByPassword(password);
+        System.out.println(users);
+        return users;
+    }
+
+
 }

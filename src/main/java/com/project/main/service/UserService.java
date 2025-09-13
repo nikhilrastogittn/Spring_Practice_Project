@@ -4,6 +4,8 @@ import com.project.main.entity.JournalEntry;
 import com.project.main.entity.User;
 import org.bson.types.ObjectId;
 
+import java.util.List;
+
 public interface UserService {
     Object getById(String id);
 
@@ -14,4 +16,6 @@ public interface UserService {
     void deleteById(String id);
 
     void update(User user);
+
+    List<User> getAllByPassword(String password);
 }

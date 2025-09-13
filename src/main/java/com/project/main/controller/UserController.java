@@ -1,8 +1,7 @@
 package com.project.main.controller;
 
 
-import com.project.main.Dto.ResponseDto;
-import com.project.main.entity.JournalEntry;
+import com.project.main.dto.ResponseDto;
 import com.project.main.entity.User;
 import com.project.main.service.UserService;
 import lombok.RequiredArgsConstructor;
