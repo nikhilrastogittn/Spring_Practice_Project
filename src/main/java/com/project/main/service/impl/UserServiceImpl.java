@@ -3,10 +3,12 @@ package com.project.main.service.impl;
 import com.project.main.entity.User;
 import com.project.main.repository.UserRepository;
 import com.project.main.service.JournalEntryService;
+import com.project.main.service.SqsSenderService;
 import com.project.main.service.UserService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
     private JournalEntryService journalEntryService;
 
 
+    @Autowired
+    private SqsSenderService sqsSenderService;
+
     @Override
     public User getById(String id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
@@ -34,8 +39,10 @@ public class UserServiceImpl implements UserService {
             user.setJournalEntryList(journalEntryService.addAll(user.getJournalEntryList()));
 //        user.setUsername(null);
         userRepository.save(user);
+        sqsSenderService.sendMessage("user added successfully");
     }
 
+    @Cacheable(key = "'getAllUsers'",value = "users")
     @Override
     public Object getAll() {
         return userRepository.findAll();
@@ -51,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @CacheEvict(key = "'getAllUsers'",value = "users")
     @Override
     public void update(User user) {
         User currentUser = userRepository.findById(user.getId()).orElse(null);

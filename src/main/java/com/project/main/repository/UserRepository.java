@@ -29,6 +29,7 @@ class CustomUserRepositoryImpl implements CustomUserRepository{
 
         Query query=new Query();
         query.addCriteria(Criteria.where("password").is(password));
+
         return mongoTemplate.find(query,User.class);
     }
 
